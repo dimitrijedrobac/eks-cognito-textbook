@@ -6,7 +6,7 @@ variable "cluster_name" {
 variable "cluster_version" {
   description = "EKS Kubernetes version"
   type        = string
-  default     = "1.29"
+  default     = "1.33"
 }
 
 variable "vpc_id" {
@@ -67,3 +67,8 @@ variable "tags" {
   default     = {}
 }
 
+variable "access_entries" {
+  description = "EKS access entries to grant IAM principals access to the cluster"
+  type        = any
+  default     = {}
+}

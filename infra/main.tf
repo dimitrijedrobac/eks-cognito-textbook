@@ -30,25 +30,25 @@ output "private_subnets" {
 module "eks" {
   source = "./modules/eks"
 
-  cluster_name               = var.cluster_name
-  cluster_version            = "1.29"
+  cluster_name               = "${var.cluster_name}"
+  cluster_version            = "1.30"
 
   vpc_id                     = module.vpc.vpc_id
   subnet_ids                 = module.vpc.private_subnets
   control_plane_subnet_ids   = module.vpc.private_subnets
 
-  # Cost-conscious defaults; restrict CIDRs later if you want
-  endpoint_public_access          = true
-  endpoint_private_access         = true
-  endpoint_public_access_cidrs    = ["0.0.0.0/0"]
+  endpoint_public_access       = true
+  endpoint_private_access      = true
+  endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
   instance_types = ["t3.small"]
   desired_size   = 2
-  min_size       = 1
+  min_size       = 2
   max_size       = 3
 
- tags = { Project = var.project_name }
+  tags = { Project = var.project_name }
 }
+
 
 # Handy outputs to use later (Helm providers, etc.)
 output "cluster_name" {
@@ -69,4 +69,9 @@ output "oidc_provider_arn" {
 
 output "oidc_issuer_url" {
   value = module.eks.oidc_issuer_url
+}
+
+module "cognito" {
+  source       = "./modules/cognito"
+  project_name = var.project_name
 }
