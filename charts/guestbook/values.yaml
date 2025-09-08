@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: public.ecr.aws/docker/library/nginx
+  tag: "stable"
+  pullPolicy: IfNotPresent
+
+service:
+  name: guestbook
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: alb
+  host: ""   # optional; leave empty to use ALB DNS
+  annotations:
+    scheme: internet-facing
+    targetType: ip
+    authOnUnauthenticatedRequest: authenticate
+    authSessionCookie: alb-auth
+    authSessionTimeout: "3600"
+
+cognito:
+  userPoolArn: ""
+  userPoolClientId: ""
+  userPoolDomain: ""
