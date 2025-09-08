@@ -7,14 +7,14 @@ module "vpc" {
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
 
-  # cost-aware defaults
+
   enable_nat_gateway = true
   single_nat_gateway = true
 
   cluster_name = var.cluster_name
 }
 
-# We'll output useful bits for later modules (EKS, etc.)
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
@@ -78,4 +78,3 @@ module "cognito" {
   suffix        = random_string.short.result
   project_short = "guestbook"
 }
-

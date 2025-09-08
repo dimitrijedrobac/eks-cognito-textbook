@@ -17,3 +17,7 @@ output "user_pool_domain" {
   description = "Hosted UI domain prefix (not full URL)"
   value       = aws_cognito_user_pool_domain.this.domain
 }
+
+output "user_pool_domain_prefix" {
+  value = aws_cognito_user_pool_domain.this.domain
+}
