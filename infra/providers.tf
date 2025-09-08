@@ -14,10 +14,13 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.13"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 
-# Pull live EKS connection details from the cluster we created with the module
 data "aws_eks_cluster" "this" {
   name = module.eks.cluster_name
 }
@@ -26,16 +29,14 @@ data "aws_eks_cluster_auth" "this" {
   name = module.eks.cluster_name
 }
 
-# Native Kubernetes provider (used by kubernetes_* resources)
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.this.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.this.token
 }
 
-# Helm provider wired to the same cluster
 provider "helm" {
-  kubernetes {                       # <-- note: BLOCK, no equals sign
+    kubernetes {
     host                   = data.aws_eks_cluster.this.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
     token                  = data.aws_eks_cluster_auth.this.token

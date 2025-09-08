@@ -72,6 +72,10 @@ output "oidc_issuer_url" {
 }
 
 module "cognito" {
-  source       = "./modules/cognito"
-  project_name = var.project_name
+  source        = "./modules/cognito"
+  project_name  = var.project_name
+  env           = "dev"
+  suffix        = random_string.short.result
+  project_short = "guestbook"
 }
+

@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "guestbook" {
 resource "helm_release" "guestbook" {
   name      = "guestbook"
   namespace = kubernetes_namespace.guestbook.metadata[0].name
-  chart     = "${path.module}/../charts/aws-load-balancer-controller"  # local path
+  chart     = "${path.module}/../charts/aws-load-balancer-controller" 
 
 
   atomic          = true
