@@ -8,7 +8,7 @@ variable "region" {
 variable "project_name" {
   description = "Project name prefix for tagging and naming resources"
   type        = string
-  default     = "eks-cognito-guestbook"
+  default     = "eks-guestbook"
 }
 
 variable "cluster_name" {
@@ -36,4 +36,9 @@ variable "public_subnets" {
 variable "private_subnets" {
   description = "Private subnet CIDRs"
   type        = list(string)
+}
+
+variable "alb_irsa_role_arn" {
+  description = "ARN of the pre-provisioned IAM role for ALB Controller IRSA"
+  type        = string
 }
